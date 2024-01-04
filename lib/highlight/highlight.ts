@@ -6,7 +6,7 @@ async function getGrammar(extension : string) {
         //console.log(ref[i], i)
         if (ref[i].includes(extension)) {
             //console.log(`code/${i}.json`)
-            return await Bun.file(`highlight/code/${i}.json`).json();
+            return await Bun.file(`lib/highlight/code/${i}.json`).json();
         }
     }
 }
@@ -140,4 +140,4 @@ function highlightSyntax(json:{patterns:pattern[],repository:{[key : string]: pa
     return highlighted
 }
 
-console.log(highlightSyntax(await getGrammar('ts'),await Bun.file("highlight/highlight.ts").text()).map(a=>JSON.stringify(a)).join('\n'))
+console.log(highlightSyntax(await getGrammar('ts'),await Bun.file("lib/highlight/highlight.ts").text()).map(a=>JSON.stringify(a)).join('\n'))
