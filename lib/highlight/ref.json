@@ -1,0 +1,4 @@
+{
+    "js":["js","jsx","cjs","mjs","es6","es"],
+    "ts":["ts","tsx","cts","mts"]
+}
