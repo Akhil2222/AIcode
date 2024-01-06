@@ -1,12 +1,12 @@
 import {OnigRegExp} from "onigurumajs"
-
-const ref : {[key : string] : string[]} = await Bun.file("highlight/ref.json").json();
-async function getGrammar(extension : string) {
-    for (let i in ref) {
+const path = "lib/highlight"
+export async function getGrammar(extension : string) {
+	const ref : {[key : string] : string[]} = await Bun.file(`${path}/ref.json`).json();
+	for (let i in ref) {
         //console.log(ref[i], i)
         if (ref[i].includes(extension)) {
             //console.log(`code/${i}.json`)
-            return await Bun.file(`lib/highlight/code/${i}.json`).json();
+            return await Bun.file(`${path}/code/${i}.json`).json();
         }
     }
 }
@@ -21,7 +21,7 @@ type pattern =  {
 	endCaptures: {[key: string]: {name : string}},
 	include?: `#${string}` | null
 }
-function highlightSyntax(json:{patterns:pattern[],repository:{[key : string]: pattern}},text:string,theme?:{[type:string] : `#${{length: 6} & string}`}){
+export function highlightSyntax(json:{patterns:pattern[],repository:{[key : string]: pattern}},text:string,theme?:{[type:string] : `#${{length: 6} & string}`}){
     type highlight = [number,number, {
         types : string[],
 		includes: string[],
@@ -140,4 +140,3 @@ function highlightSyntax(json:{patterns:pattern[],repository:{[key : string]: pa
     return highlighted
 }
 
-console.log(highlightSyntax(await getGrammar('ts'),await Bun.file("lib/highlight/highlight.ts").text()).map(a=>JSON.stringify(a)).join('\n'))
